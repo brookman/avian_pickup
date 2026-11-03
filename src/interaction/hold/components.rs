@@ -1,6 +1,4 @@
 use crate::prelude::*;
-use avian3d::math::Real;
-use std::f32::consts::TAU;
 
 pub(super) fn plugin(_app: &mut App) {}
 
@@ -10,8 +8,6 @@ pub(crate) struct ShadowParams {
     pub(crate) target_position: Vec3,
     /// Global target rotation of the held prop
     pub(crate) target_rotation: Quat,
-    pub(crate) max_angular: Real,
-    pub(crate) max_speed: Real,
 }
 
 impl Default for ShadowParams {
@@ -19,9 +15,6 @@ impl Default for ShadowParams {
         Self {
             target_position: Vec3::ZERO,
             target_rotation: Quat::IDENTITY,
-            // the following two are tuned by hand
-            max_angular: TAU * 2.0,
-            max_speed: 10.0,
         }
     }
 }

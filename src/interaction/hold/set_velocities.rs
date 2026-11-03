@@ -44,12 +44,13 @@ fn set_velocities(
         // things like overshooting as we are in a fixed timestep.
         // Negative because the dt is already inverted
         let vel_ease = f32::exp(-actor.hold.linear_velocity_easing);
-        velocity.0 = (delta_position * inv_dt * vel_ease).clamp_length_max(shadow.max_speed);
+        velocity.0 =
+            (delta_position * inv_dt * vel_ease).clamp_length_max(actor.hold.max_linear_speed);
         velocity.0 = zero_if_near_zero(velocity.0);
 
         let angvel_ease = f32::exp(-actor.hold.angular_velocity_easing);
         angvel.0 = (delta_rotation_scaled_axis * inv_dt * angvel_ease)
-            .clamp_length_max(shadow.max_angular);
+            .clamp_length_max(actor.hold.max_angular_speed);
         angvel.0 = zero_if_near_zero(angvel.0);
     }
 }

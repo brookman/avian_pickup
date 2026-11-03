@@ -2,6 +2,8 @@
 
 use std::ops::RangeInclusive;
 
+use std::f32::consts::TAU;
+
 use avian3d::{math::Real, prelude::*};
 
 use crate::{
@@ -184,6 +186,16 @@ pub struct AvianPickupActorHoldConfig {
     /// [`PickupMassOverride`] to the prop.\
     /// Default: 1 kg
     pub temporary_prop_mass: Real,
+    /// The maximum linear speed in m/s the held prop can move at while
+    /// following its target position.
+    /// If the actor moves or turns faster than this allows, the prop will
+    /// trail behind.\
+    /// Default: 10.0 m/s
+    pub max_linear_speed: Real,
+    /// The maximum angular speed in rad/s the held prop can rotate at while
+    /// following its target rotation.\
+    /// Default: 4π rad/s
+    pub max_angular_speed: Real,
 }
 
 impl Default for AvianPickupActorHoldConfig {
@@ -196,6 +208,8 @@ impl Default for AvianPickupActorHoldConfig {
             pitch_range: (-75.0_f32).to_radians()..=75.0_f32.to_radians(),
             preferred_distance: 0.6,
             temporary_prop_mass: 1.0,
+            max_linear_speed: 10.0,
+            max_angular_speed: TAU * 2.0,
         }
     }
 }

@@ -14,10 +14,10 @@ pub(super) fn plugin(app: &mut App) {
 pub fn update_error(
     time: Res<Time>,
     q_prop: Query<&GlobalTransform>,
-    mut q_actor: Query<(&mut HoldError, &ShadowParams, &Holding)>,
+    mut q_actor: Query<(&mut HoldError, &ShadowParams, &Holding, &AvianPickupActor)>,
 ) {
     let dt = time.delta_secs();
-    for (mut hold_error, shadow, holding) in q_actor.iter_mut() {
+    for (mut hold_error, shadow, holding, actor) in q_actor.iter_mut() {
         let prop = holding.0;
         hold_error.error_time += dt;
         if hold_error.error_time <= 0.0 {
@@ -32,7 +32,7 @@ pub fn update_error(
             hold_error.error_time = 1.0;
         }
         let speed = error / hold_error.error_time;
-        if speed > shadow.max_speed {
+        if speed > actor.hold.max_linear_speed {
             // this seems like it would still result in a speed above max_speed
             // but idk.
             error *= 0.5;
